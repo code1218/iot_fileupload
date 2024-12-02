@@ -5,6 +5,7 @@ import com.korit.fileupload_back.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Repository
@@ -16,6 +17,10 @@ public class MemberRepository {
     public Optional<Member> save(Member member) {
         memberMapper.insert(member);
         return Optional.of(member);
+    }
+
+    public Optional<Member> findById(Long id) {
+        return Optional.ofNullable(memberMapper.selectMemberById(id));
     }
 
 }

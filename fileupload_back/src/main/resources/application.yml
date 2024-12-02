@@ -5,6 +5,13 @@ spring:
     username: root
     password: root
 
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+
+
 mybatis:
   mapper-locations:
     - /mappers/*.xml

@@ -2,8 +2,10 @@ package com.korit.fileupload_back.service;
 
 import com.korit.fileupload_back.dto.ReqFileUploadDto;
 import com.korit.fileupload_back.dto.RespAddMemberDto;
+import com.korit.fileupload_back.dto.RespGetMemberDto;
 import com.korit.fileupload_back.entity.Member;
 import com.korit.fileupload_back.exception.MemberInsertException;
+import com.korit.fileupload_back.exception.NotFoundException;
 import com.korit.fileupload_back.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,4 +43,24 @@ public class MemberService {
                 .memberId(insertedMember.getId())
                 .build();
     }
+
+    public RespGetMemberDto getMember(Long id) {
+        Member foundMember = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("해당 멤버 ID는 존재하지 않습니다."));
+
+        return RespGetMemberDto.builder()
+                .memberId(foundMember.getId())
+                .name(foundMember.getName())
+                .profileImgPath(foundMember.getProfileImgPath())
+                .build();
+    }
+
 }
+
+
+
+
+
+
+
+
