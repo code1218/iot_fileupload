@@ -27,6 +27,7 @@ function App() {
 
   const handleOnSubmit = () => {
     const formData = new FormData();
+
     Object.entries(reqData).forEach(entry => {
       const [key, value] = entry;
       if(!!value) {
