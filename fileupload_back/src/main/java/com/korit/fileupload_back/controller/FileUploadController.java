@@ -4,6 +4,7 @@ import com.korit.fileupload_back.dto.ReqFileUploadDto;
 import com.korit.fileupload_back.service.FileUploadService;
 import com.korit.fileupload_back.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,11 +24,13 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     public RespAddMemberDto addMember(ReqFileUploadDto dto) {
-        String profileImgPath = fileUploadService.uploadFile(dto.getImg());
+        List<String> profileImgPathList = new ArrayList<>();
+        dto.getImg().forEach(img -> profileImgPathList.add(fileUploadService.uploadFile(img)));
+//        String profileImgPath = fileUploadService.uploadFile(dto.getImg());
 
         Member memberEntity = Member.builder()
                 .name(dto.getTitle())
-                .profileImgPath(profileImgPath)
+                .profileImgPath(String.join(",", profileImgPathList))
                 .build();
 
         Member insertedMember = memberRepository.save(memberEntity)

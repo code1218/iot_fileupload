@@ -11,7 +11,7 @@ function App() {
   const [ member, setMember ] = useState({
     memberId: 0,
     name: "",
-    profileImgPath: "",
+    profileImgPath: [],
   });
 
 
@@ -19,10 +19,10 @@ function App() {
   const handleOnChange = (e) => {
     if(["img"].includes(e.target.name)){
       const files = Array.from(e.target.files);
-      console.log(files[0]);
+      console.log(files);
       setReqData(prev => ({
         ...prev,
-        [e.target.name]: files[0]
+        [e.target.name]: files
       }));
       return;
     }
@@ -39,6 +39,12 @@ function App() {
     Object.entries(reqData).forEach(entry => {
       const [key, value] = entry;
       if(!!value) {
+        if(key === "img") {
+          for(const file of value) {
+            formData.append(key, file);
+          }
+          return;
+        }
         formData.append(key, value);
       }
     });
@@ -60,7 +66,7 @@ function App() {
         setMember({
           memberId: response.data.memberId,
           name: response.data.name,
-          profileImgPath: response.data.profileImgPath,
+          profileImgPath: response.data.profileImgPath.split(","),
         });
       }).catch(error => {
         console.error(error);
@@ -79,7 +85,7 @@ function App() {
         <input type='text' name='title' onChange={handleOnChange} value={reqData.title} />
       </div>
       <div>
-        <input type='file' name='img' onChange={handleOnChange} />
+        <input type='file' name='img' onChange={handleOnChange} multiple />
       </div>
       <button onClick={handleOnSubmit}>전송</button>
 
@@ -91,9 +97,13 @@ function App() {
         <div>
           name: {member.name}
         </div>
-        <div>
-          <img src={`http://localhost:8080/image/${member.profileImgPath}`} />
-        </div>
+        {
+          member.profileImgPath.map(img => 
+            <div>
+              <img src={`http://localhost:8080/image/${img}`} />
+            </div>
+          )
+        }
       </div>
     </div>
   );
